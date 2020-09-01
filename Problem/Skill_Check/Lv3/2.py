@@ -48,6 +48,12 @@ def solution(lines):
 
     return answer
 
+"""
+힌트
+- 시간 단위를 milsec에서 1000을 곱해서 단위 변환을 더 편하게 할 수 있음
+- 구간 비교할 때, 해당 구간이 아닌 것을 이용하라
+e.g.) not (duration[1] < start or duration[0] >= end):
+"""
 
 # print(solution(["2016-09-15 01:00:04.001 2.0s", "2016-09-15 01:00:07.000 2s"]))
 # print(solution(["2016-09-15 01:00:04.002 2.0s", "2016-09-15 01:00:07.000 2s"]))
