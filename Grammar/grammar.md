@@ -418,3 +418,36 @@ with open('myfile.txt') as file:
         print(line.strip().split('\t'))
 ```
 
+
+
+#### if else 문 한 줄로 쓰기
+
+```python
+# 기본 if else
+if count == m:
+    last = timetable_second[pos-1] - 1
+else:
+    last = time
+
+# 한 줄로 쓰는 if else
+last = timetable_second[pos-1] - 1 if count == m else time
+```
+
+
+
+#### 문자열 앞에 0 채우기
+
+- string.zfill(width) 
+  - 앞에 0을 채워서 스트링 길이를 width로 맞춤
+- string.rjust(width[,fillchar])
+  - 앞에 fillchar를 채워서 스트링 길이를 width로 맞춤
+
+```python
+"5".zfill(5)
+"5".rjust(5, '0')
+"%05d" % 5		# 번외
+
+#출력 
+00005
+```
+
