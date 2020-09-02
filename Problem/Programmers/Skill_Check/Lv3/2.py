@@ -15,33 +15,24 @@ def solution(lines):
     for line in lines:
         date, response, process_time = line.split(' ')
         time = response.split(':')
-        start_second = int(time[0]) * 3600 + int(time[1]) * 60 + float(time[2]) - float(process_time[:-1]) + 0.001
-        end_second = round(start_second + float(process_time[:-1]) - 0.001, 3)
-        time_list.append((start_second, end_second))
+        start_second = int(time[0]) * 3600000 + int(time[1]) * 60000 + float(time[2]) * 1000 - float(process_time[:-1]) * 1000 + 1
+        end_second = start_second + float(process_time[:-1]) * 1000 - 1
+        time_list.append((int(start_second), int(end_second)))
 
-    for idx1 in range(0, len(time_list)):
-        start_count = 1
-        end_count = 1
+    for idx1, value1 in enumerate(time_list):
+        start_count, end_count = 1, 1
+        base_start, base_end = value1
 
-        base_start, base_end = time_list[idx1]
-        for idx2 in range(0, len(time_list)):
-
-            # 같은 경우 continue
-            if idx1 == idx2:
-                continue
+        for idx2 in range(idx1 + 1, len(time_list)):
 
             comp_start, comp_end = time_list[idx2]
-
+            
             # 시작 시간 기준
-            if base_start <= comp_start < base_start + 1 or \
-                    base_start <= comp_end < base_start + 1 or \
-                    comp_start <= base_start < base_end <= comp_end:
+            if not (comp_end < base_start - 1000 or base_start + 1000 <= comp_start):
                 start_count += 1
 
             # 끝 시간 기준
-            if base_end <= comp_start < base_end + 1 or \
-                    base_end <= comp_end < base_end + 1 or \
-                    comp_start <= base_start < base_end <= comp_end:
+            if not (comp_end < base_end - 1000 or base_end + 1000 <= comp_start):
                 end_count += 1
 
         answer = max(answer, max(start_count, end_count))
@@ -55,12 +46,15 @@ def solution(lines):
 e.g.) not (duration[1] < start or duration[0] >= end):
 """
 
-# print(solution(["2016-09-15 01:00:04.001 2.0s", "2016-09-15 01:00:07.000 2s"]))
-# print(solution(["2016-09-15 01:00:04.002 2.0s", "2016-09-15 01:00:07.000 2s"]))
-# print(solution(["2016-09-15 20:59:57.421 0.351s", "2016-09-15 20:59:58.233 1.181s", "2016-09-15 20:59:58.299 0.8s",
-#                "2016-09-15 20:59:58.688 1.041s", "2016-09-15 20:59:59.591 1.412s", "2016-09-15 21:00:00.464 1.466s",
-#                "2016-09-15 21:00:00.741 1.581s", "2016-09-15 21:00:00.748 2.31s", "2016-09-15 21:00:00.966 0.381s",
-#                "2016-09-15 21:00:02.066 2.62s"]))
-
-# print(solution(	["2016-09-15 01:00:04.001 2.0s", "2016-09-15 01:00:07.000 2s"]))
+"""
+Test Case
+print(solution(	["2016-09-15 00:00:00.000 3s"])
+print(solution(	["2016-09-15 23:59:59.999 0.001s"])
+print(solution(["2016-09-15 01:00:04.001 2.0s", "2016-09-15 01:00:07.000 2s"]))
+print(solution(["2016-09-15 01:00:04.002 2.0s", "2016-09-15 01:00:07.000 2s"]))
+print(solution(["2016-09-15 20:59:57.421 0.351s", "2016-09-15 20:59:58.233 1.181s", "2016-09-15 20:59:58.299 0.8s",
+                "2016-09-15 20:59:58.688 1.041s", "2016-09-15 20:59:59.591 1.412s", "2016-09-15 21:00:00.464 1.466s",
+                "2016-09-15 21:00:00.741 1.581s", "2016-09-15 21:00:00.748 2.31s", "2016-09-15 21:00:00.966 0.381s",
+                "2016-09-15 21:00:02.066 2.62s"]))
 print(solution(["2016-09-15 00:00:00.000 2.3s", "2016-09-15 23:59:59.999 0.1s"]))
+"""
