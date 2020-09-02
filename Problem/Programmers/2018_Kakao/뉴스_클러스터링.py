@@ -7,50 +7,29 @@ str1, str2 (길이는 2이상 1000이하)
 @output
 (유사도 값 * 65536) 소수점 아래 버림
 """
-import math
-
-
-def make_set_list(str_data):
-    str_list = []
-
-    for idx in range(0, len(str_data) - 1):
-        value = str_data[idx:idx + 2]
-        if value.isalpha():
-            str_list.append((value.upper(), False))
-
-    return str_list
 
 
 def solution(str1, str2):
-    str1_list, str2_list = make_set_list(str1), make_set_list(str2)
+    str1_list = [str1[idx:idx+2].lower() for idx in range(0, len(str1) - 1) if str1[idx:idx+2].isalpha()]
+    str2_list = [str2[idx:idx+2].lower() for idx in range(0, len(str2) - 1) if str2[idx:idx+2].isalpha()]
 
-    inter_count, union_count = 0, 0
-    for idx1, value1 in enumerate(str1_list):
-        if value1[1]:
-            continue
-        for idx2, value2 in enumerate(str2_list):
-            if value2[1]:
-                continue
+    if len(str1_list) == 0 and len(str2_list) == 0:
+        return 65536
 
-            if value1 == value2:
-                inter_count += 1
-                temp_str1, temp_str2 = list(value1), list(value2)
-                temp_str1[1], temp_str2[1] = True, True
-                str1_list[idx1], str2_list[idx2] = tuple(temp_str1), tuple(temp_str2)
-                break
+    inter_set = set(str1_list) & set(str2_list)
+    union_set = set(str1_list) | set(str2_list)
 
-    union_count = len(str1_list) + len(str2_list) - inter_count
-    if inter_count or union_count:
-        answer = math.floor(65536 * (inter_count/union_count))
-    else:
-        answer = 65536
+    inter_sum = sum([min(str1_list.count(value), str2_list.count(value)) for value in inter_set])
+    union_sum = sum([max(str1_list.count(value), str2_list.count(value)) for value in union_set])
 
-    return answer
+    return int((inter_sum/union_sum) * 65536)
 
 """
-다른 사람 풀이
+다른 사람 풀이 반영 할 점
+- 다중 집합에 대한 교집합과 합지합을 구할 경우, 일반 교집합과 합집합을 먼저 만든 후, count로 구하기
 - list 선언 시 한 번에 선언 함 e.g.) [str1[i:i+2].lower() for i in range(len(str1)-1) if str1[i:i+2].isalpha()]
 - 교칩합 합집합 구할 때, Counter 사용 혹은 set으로 변환하여 중복된 것을 세기
+- math floor 함수 대신에 int로 형변환해서 소수점 버릴 수 있음
 """
 
 print(solution('FRANCE', 'french'))
