@@ -14,24 +14,12 @@
 """
 
 
-def convert_10_to_2(num):
-    value = ''
-    while num > 0:
-        value = str(num % 2) + value
-        num = int(num/2)
-
-    return value
-
-
 def solution(n, arr1, arr2):
     answer = []
 
-    for i in range(n):
-        map1, map2 = convert_10_to_2(arr1[i]).zfill(n), convert_10_to_2(arr2[i]).zfill(n)
-        temp_str = ''
-        for j in range(n):
-            temp_str += '#' if (int(map1[j]) | int(map2[j])) else ' '
-        answer.append(temp_str)
+    for i, j in zip(arr1, arr2):
+        binary_data = str(bin(i | j)[2:]).zfill(n)
+        answer.append(binary_data.replace('1', '#').replace('0', ' '))
 
     return answer
 
@@ -45,5 +33,9 @@ def solution(n, arr1, arr2):
 - bin, replace 활용
 """
 
+"""
+Test Case
+
 print(solution(5, [9, 20, 28, 18, 11], [30, 1, 21, 17, 28]))
-# print(solution(6, [46, 33, 33, 22, 31, 50], [27, 56, 19, 14, 14, 10]))
+print(solution(6, [46, 33, 33, 22, 31, 50], [27, 56, 19, 14, 14, 10]))
+"""
