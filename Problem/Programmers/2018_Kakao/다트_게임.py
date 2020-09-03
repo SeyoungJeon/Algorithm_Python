@@ -20,33 +20,20 @@
 @output
 점수값
 """
+import re
 
 
 def solution(dartResult):
-    num_str = ''
     alpha_dict = {'S': 1, 'D': 2, 'T': 3}
-    point_list = []
-    for idx, value in enumerate(dartResult):
-        if value.isdigit():
-            num_str += value
-        elif value.isalpha():
-            point_list.append(pow(int(num_str), alpha_dict[value]))
-            if idx + 1 >= len(dartResult):
-                break
+    special_dict = {'': 1, '*': 2, '#': -1}
+    dart = re.compile("(\d+)([SDT])([*#]?)").findall(dartResult)
 
-            if not (dartResult[idx+1] == '*' or dartResult[idx+1] == '#'):
-                num_str = ''
-        else:
-            if value == '*':
-                if len(point_list) > 1:
-                    point_list[len(point_list) - 2] *= 2
-                point_list[len(point_list) - 1] *= 2
-            else:
-                point_list[len(point_list) - 1] *= -1
+    for idx, value in enumerate(dart):
+        if value[2] == '*' and idx > 0:
+            dart[idx-1] *= 2
+        dart[idx] = int(value[0]) ** alpha_dict[value[1]] * special_dict[value[2]]
 
-            num_str = ''
-
-    return sum(point_list)
+    return sum(dart)
 
 """
 @ 세뚱이 풀이
@@ -58,7 +45,18 @@ def solution(dartResult):
 - 처음에 문제 파악이 제대로 안됬음 -> 해결 방법을 도중에 수정 
 
 문제를 제대로 파악하고 접근하자
+
+@ 다른 사람 풀이 중에서 반영할 점
+1. 거듭제곱 사용 시 pow 말고 ** 으로 대체 가능
+2. 정규식을 사용해서 해당 명령어를 깔끔하게 구분함
+- re.compile("(\d+)([SDT])([*#]?)").findall(dartResult)
+3. 기존에 있는 리스트를 답을 저장할 리스트로 대체함
+
+문자열 구분하는 문제가 나올 경우 정규식을 활용해보자
 """
+
+"""
+Test Case
 
 print(solution("1S2D*3T"))
 print(solution("1D2S#10S"))
@@ -67,3 +65,4 @@ print(solution("1S*2T*3S"))
 print(solution("1D#2S*3S"))
 print(solution("1T2D3D#"))
 print(solution("1D2S3T*"))
+"""
