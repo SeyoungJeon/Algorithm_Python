@@ -50,6 +50,12 @@ def solution(m, musicinfos):
 2. HH:MM 형식을 단위 분으로 변환
 3. sorted 함수에서 lamda를 이용한 재생시간 오름차순 정렬
 
+@ 다른 사람 풀이에서 반영할 점
+1. sorted(musicinfos_init, key=lambda music:music[4], reverse = True) 
+  - 오름차순 정렬할 때, reverse 키워드 사용
+2. 음악 제목과, 재생길이를 따른 리스트에 관리하여 titles[musics.index(max(musics))]
+  - 정렬하지 않고 최대 재생길이 인덱스를 찾아 음악제목을 반환한다
+3. 미리 변경할 문자들을 사전으로 관리해서 for문 형식으로 replace 해도 된다
 """
 
 # print(solution("ABCDEFG", ["12:00,12:14,HELLO,CDEFGAB", "13:00,13:05,WORLD,ABCDEF"]))
