@@ -19,10 +19,10 @@
 
 
 def convert_10_to_N(number, base):
+    alpha_dict = '0123456789ABCDEF'
     result = '' if number > 0 else '0'
     while number > 0:
-        result = str(number % base).replace('10', 'A').replace('11', 'B').replace('12', 'C').\
-            replace('13', 'D').replace('14', 'E').replace('15', 'F') + result
+        result = alpha_dict[number % base] + result
         number //= base
 
     return result
@@ -39,6 +39,9 @@ def solution(n, t, m, p):
 1. t*m 만큼 반복문 돌리면서 해당 숫자들을 n진수로 변환
 2. 변환한 숫자 리스트들을 한 string으로 변환
 3. 그 중에서 자신의 순서에 말할 문자만 추출해서 string으로 구성
+
+@ 다른 풀이 중에서 반영할 점
+1. replace 대신 16진수까지를 표현할 문자들을 string으로 정의해서 사용 (이게 replace보다 속도가 더 빠름)
 """
 
 """
