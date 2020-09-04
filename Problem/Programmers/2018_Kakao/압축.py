@@ -1,0 +1,51 @@
+"""
+무손실 압축 알고리즘 구현 - LZW 알고리즘
+1. 길이가 1인 모든 단어를 포함하도록 사전을 초기화
+2. 사전에서 현재 입력과 일치하는 가장 긴 문자열 w 찾기
+3. w에 해당하는 사전의 색인 번호 출력, 입력에서 w 제거
+4. 입력에서 처리되지 않은 글자가 남았다면(c), w+c에 해당하는 단어를 사전에 등록
+5. 단계 2로 돌아감
+
+@input
+문자열 : msg (1<= msg <= 1000, 영문 대문자로만 이루어짐)
+
+@output
+주어진 문자열의 압축한 후의 사전 색인 번호를 배열로 출력
+"""
+import string
+
+
+def solution(msg):
+    answer = []
+    dictionary = [value for value in string.ascii_uppercase]
+
+    start = 0
+    while start < len(msg):
+        end = 1
+        while end <= len(msg) and msg[start:start + end] in dictionary:
+            end += 1
+
+        answer.append(dictionary.index(msg[start: start+end-1]) + 1)
+        dictionary.append(msg[start: start+end])
+        start += (end - 1)
+
+    return answer
+
+"""
+@ 세뚱이 풀이
+1. string.ascii_uppercase로 사전 초기화
+2. 시작 위치와 끝 위치로 문자열을 잘라서 사전에 있는지 문자열인지 확인
+3. 사전에 없는 문자열이 나왔을 때, 사전에 추가 및 위치 저장, 시작위치 변경
+
+@ 다른 사람 풀이 반영할 점
+1. 사전을 dictionary와 별개의 num으로 관리해서 색인 추출을 한다.
+"""
+
+"""
+Test Case
+
+print(solution("KAKAO"))
+print(solution("TOBEORNOTTOBEORTOBEORNOT"))
+print(solution("ABABABABABABABAB"))
+print(solution("THATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITISTHATTHATISISTHATTHATISNOTISNOTISTHATITITIS"))
+"""
