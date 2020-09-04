@@ -24,20 +24,17 @@ import re
 
 
 def solution(files):
-    answer = []
-    match = re.compile("([^0-9]+)(\d+)([^_]*)")
-    for file in files:
-        answer.append(match.findall(file)[0])
-
-    answer = list(map(''.join, sorted(answer, key=lambda x: (x[0].lower(), int(x[1])))))
-
-    return answer
+    answer = [re.findall("([^0-9]+)(\d+)([^_]*)", file)[0] for file in files]
+    return list(map(''.join, sorted(answer, key=lambda x: (x[0].lower(), int(x[1])))))
 
 """
 @ 세뚱이 풀이
 1. 정규식을 활용해서 Head, Number, Tail 추출
 2. lamda 이용해서 정렬을 하는데, head 문자를 모두 소문자로 변동시켜서 대문자일 경우게도 같게 처리했고
    head가 같을 경우 number를 이용해서 정렬
+
+@ 다른 사람 풀이 중에서 반영할 점
+1. [] 안에 for문 삽입하여 list 간단하게 만들기 
 """
 
 """
