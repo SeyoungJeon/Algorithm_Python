@@ -28,7 +28,7 @@
 
 def solution(record):
     answer = []
-    command_dict = {'Enter': '들어왔습니다.', 'Leave': '나갔습니다.'}
+    command_dict = {'Enter': '님이 들어왔습니다.', 'Leave': '님이 나갔습니다.'}
     user_dict = {}
     for value in record:
         value = value.split(' ')
@@ -38,7 +38,7 @@ def solution(record):
     for value in record:
         value = value.split(' ')
         if value[0] != 'Change':
-            answer.append(user_dict[value[1]] + '님이 ' + command_dict[value[0]])
+            answer.append(user_dict[value[1]] + command_dict[value[0]])
 
     return answer
 
@@ -47,6 +47,13 @@ def solution(record):
 @ 세뚱이 풀이
 1. command에 대한 dict 선언
 2. user에 대한 dict를 선언하여 닉네임의 변경사항을 순차적으로 수정할 수 있었다.
+
+@ 다른 사람 풀이 중에서 반영할 점
+1. command를 사전으로 작성한 것은 좋았으나, 공통적인 부분을 모두 처리하는게 더 좋다.
 """
 
+"""
+Test Case
+
 print(solution(	["Enter uid1234 Muzi", "Enter uid4567 Prodo", "Leave uid1234", "Enter uid1234 Prodo", "Change uid4567 Ryan"]))
+"""
