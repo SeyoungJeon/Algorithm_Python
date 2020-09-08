@@ -43,11 +43,7 @@ def solution(food_times, k):
         time += (value[0] - prev) * (len(food_times) + 1)
         prev = value[0]
 
-    if len(food_times) == 0:
-        return -1
-
-    food_times = sorted(food_times, key=lambda x: x[1])
-    return food_times[(k-time) % len(food_times)][1]
+    return -1 if len(food_times) == 0 else sorted(food_times, key=lambda x: x[1])[(k-time) % len(food_times)][1]
 
 
 """
@@ -56,6 +52,9 @@ def solution(food_times, k):
 2. 최소 남은 음식의 양을 검사하여 시간 세기
 3. food time 배열이 비었다면 -1 반환
 4. 안 비었다면 인덱스 순으로 오름차순 정렬해서 남은 시간에 대해 순서 찾아서 반환
+
+@ 코드 수정
+1. if 문 한 줄로 변경
 """
 
 """
