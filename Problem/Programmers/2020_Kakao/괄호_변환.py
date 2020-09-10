@@ -56,19 +56,11 @@ def balance_string(s):
             pos = idx+1
             break
 
-    u, v = (s[0:pos], '') if len(s) == pos else (s[0:pos], s[pos:])
+    u, v = s[:pos], s[pos:]
     if check_balance(u):
         result = u + balance_string(v)
     else:
-        result = '(' + balance_string(v) + ')'
-        u = list(u[1:len(u)-1])
-
-        for idx in range(0, len(u)):
-            if u[idx] == '(':
-                u[idx] = ')'
-            else:
-                u[idx] = '('
-        result += ''.join(u)
+        result = '(' + balance_string(v) + ')' + ''.join(list(map(lambda x: '(' if x == ')' else ')', u[1:len(u)-1])))
 
     return result
 
@@ -82,6 +74,11 @@ def solution(p):
 1. 문제의 주어진 알고리즘대로 코드 작성
 2. 풀면서 너무 C++, Java 코드 느낌이 들었다.
 3. Python 2로 채점해서 한 15분 정도 낭비했다.. 시험 때는 절대 이런 실수 하면 안됨!!
+
+@ 다른 사람 풀이 중에서 반영할 점
+1. 균형잡힌 괄호인지를 1개의 for문에서 확인하면서 올바른 괄호까지 확인함
+2. lambda 를 이용해서 괄호 뒤집기를 한 줄 코드로 작성 가능
+    -  ''.join(list(map(lambda x:'(' if x==')' else ')',p[1:i]) ))
 """
 
 print(solution("(()())()"))
